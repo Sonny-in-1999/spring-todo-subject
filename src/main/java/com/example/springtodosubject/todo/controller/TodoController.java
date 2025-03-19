@@ -1,0 +1,50 @@
+package com.example.springtodosubject.todo.controller;
+
+import com.example.springtodosubject.todo.dto.CreateTodoRequest;
+import com.example.springtodosubject.todo.dto.TodoResponse;
+import com.example.springtodosubject.todo.dto.UpdateTodoRequest;
+import com.example.springtodosubject.todo.service.TodoService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController("/api/todos")
+@RequiredArgsConstructor
+public class TodoController {
+
+    private final TodoService todoService;
+
+
+    // 전건 조회
+    @GetMapping
+    public ResponseEntity<List<TodoResponse>> getTodos() {
+        List<TodoResponse> todos = todoService.getAllTodos();
+        return ResponseEntity.status(201).body(todos);
+    }
+
+    @GetMapping("/{todoId}")
+    public ResponseEntity<TodoResponse> getTodo(@PathVariable Long todoId) {
+        TodoResponse todo = todoService.getTodoById(todoId);
+        return ResponseEntity.ok(todo);
+    }
+
+    @PostMapping
+    public ResponseEntity<TodoResponse> createTodo(CreateTodoRequest request) {
+        TodoResponse todo = todoService.createTodo(request);
+        return ResponseEntity.ok(todo);
+    }
+
+    @PutMapping("/{todoId}")
+    public ResponseEntity<TodoResponse> updateTodo(@PathVariable Long todoId, UpdateTodoRequest request) {
+        TodoResponse todo = todoService.updateTodo(todoId, request);
+        return ResponseEntity.ok(todo);
+    }
+
+    @DeleteMapping("/{todoId}")
+    public ResponseEntity<String> deleteTodo(@PathVariable Long todoId) {
+        todoService.DeleteTodo(todoId);
+        return ResponseEntity.ok().body("할 일 삭제완료");
+    }
+}
