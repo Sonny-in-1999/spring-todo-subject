@@ -18,7 +18,7 @@ public class TodoRepository {
 
 
     private final RowMapper<Todo> todoRowMapper = (rs, rowNum) ->
-            new Todo(rs.getLong("todo_id"), rs.getString("name"), rs.getString("writer"), rs.getString("password"), rs.getDate("created_at"), rs.getDate("updated_at"));
+            new Todo(rs.getLong("todo_id"), rs.getString("title"), rs.getString("writer"), rs.getString("password"), rs.getTimestamp("created_at"), rs.getTimestamp("updated_at"));
 
 
     // 전건 조회
@@ -33,8 +33,8 @@ public class TodoRepository {
 
     // 등록
     public int save(Todo todo) {
-        return jdbcTemplate.update("INSERT INTO todo (title, writer, password, created_at, updated_at) VALUES (?, ?, ?, ?, ?)",
-                todo.getTitle(), todo.getWriter(), todo.getPassword(), todo.getCreatedAt(), todo.getUpdatedAt());
+        return jdbcTemplate.update("INSERT INTO todo (title, writer, password) VALUES (?, ?, ?)",
+                todo.getTitle(), todo.getWriter(), todo.getPassword());
     }
 
     // 수정

@@ -32,14 +32,14 @@ public class TodoService {
     }
 
     // 등록
-    public TodoResponse createTodo(CreateTodoRequest request) {
+    public void createTodo(CreateTodoRequest request) {
         Todo todo = request.convertToEntity();
         todoRepository.save(todo);
-        return todo.convertToDTO();
     }
 
     // 수정
     public TodoResponse updateTodo(Long todoId, UpdateTodoRequest request) {
+        // TODO: 비밀번호 검증 및 비밀번호 틀린 경우 유즈 케이스 추가
         Date now = new Date(System.currentTimeMillis()); // 현재시간
         todoRepository.update(todoId, request, now);
         Todo todo = todoRepository.findById(todoId);

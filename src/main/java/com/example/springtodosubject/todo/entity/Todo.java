@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 @Builder
 @Getter
@@ -28,11 +28,11 @@ public class Todo {
     private String password;
 
     // created_at
-    private Date createdAt;
+    private Timestamp createdAt;
 
     // updated_at
     @Setter
-    private Date updatedAt;
+    private Timestamp updatedAt;
 
 
     public TodoResponse convertToDTO() {

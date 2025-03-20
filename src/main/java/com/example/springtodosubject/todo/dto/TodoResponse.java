@@ -2,14 +2,14 @@ package com.example.springtodosubject.todo.dto;
 
 import lombok.Builder;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 @Builder
 public record TodoResponse(
         Long todoId,
         String title,
         String writer,
-        Date createdAt,
-        Date updatedAt
+        Timestamp createdAt,
+        Timestamp updatedAt
 ) {
 }

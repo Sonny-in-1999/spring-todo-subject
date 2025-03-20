@@ -22,7 +22,7 @@ public class TodoController {
     @GetMapping
     public ResponseEntity<List<TodoResponse>> getTodos() {
         List<TodoResponse> todos = todoService.getAllTodos();
-        return ResponseEntity.status(201).body(todos);
+        return ResponseEntity.ok(todos);
     }
 
     @GetMapping("/{todoId}")
@@ -32,9 +32,9 @@ public class TodoController {
     }
 
     @PostMapping
-    public ResponseEntity<TodoResponse> createTodo(@RequestBody CreateTodoRequest request) {
-        TodoResponse todo = todoService.createTodo(request);
-        return ResponseEntity.ok(todo);
+    public ResponseEntity<String> createTodo(@RequestBody CreateTodoRequest request) {
+        todoService.createTodo(request);
+        return ResponseEntity.status(201).body("할 일 추가완료");
     }
 
     @PutMapping("/{todoId}")
