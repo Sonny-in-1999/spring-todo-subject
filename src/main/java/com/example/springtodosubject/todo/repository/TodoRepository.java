@@ -33,8 +33,8 @@ public class TodoRepository {
 
     // 등록
     public int save(Todo todo) {
-        return jdbcTemplate.update("INSERT INTO todo (todo_id, title, writer, password, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?)",
-                todo.getTodoId(), todo.getTitle(), todo.getWriter(), todo.getPassword(), todo.getCreatedAt(), todo.getUpdatedAt());
+        return jdbcTemplate.update("INSERT INTO todo (title, writer, password, created_at, updated_at) VALUES (?, ?, ?, ?, ?)",
+                todo.getTitle(), todo.getWriter(), todo.getPassword(), todo.getCreatedAt(), todo.getUpdatedAt());
     }
 
     // 수정

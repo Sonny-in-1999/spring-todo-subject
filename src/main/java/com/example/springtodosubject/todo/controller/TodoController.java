@@ -10,7 +10,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController("/api/todos")
+@RestController
+@RequestMapping("/api/todos")
 @RequiredArgsConstructor
 public class TodoController {
 
@@ -31,13 +32,13 @@ public class TodoController {
     }
 
     @PostMapping
-    public ResponseEntity<TodoResponse> createTodo(CreateTodoRequest request) {
+    public ResponseEntity<TodoResponse> createTodo(@RequestBody CreateTodoRequest request) {
         TodoResponse todo = todoService.createTodo(request);
         return ResponseEntity.ok(todo);
     }
 
     @PutMapping("/{todoId}")
-    public ResponseEntity<TodoResponse> updateTodo(@PathVariable Long todoId, UpdateTodoRequest request) {
+    public ResponseEntity<TodoResponse> updateTodo(@PathVariable Long todoId, @RequestBody UpdateTodoRequest request) {
         TodoResponse todo = todoService.updateTodo(todoId, request);
         return ResponseEntity.ok(todo);
     }
