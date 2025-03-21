@@ -18,12 +18,33 @@ public class TodoRepository {
 
 
     private final RowMapper<Todo> todoRowMapper = (rs, rowNum) ->
-            new Todo(rs.getLong("todo_id"), rs.getString("title"), rs.getString("writer"), rs.getString("password"), rs.getTimestamp("created_at"), rs.getTimestamp("updated_at"));
+            new Todo(rs.getLong("todo_id"), rs.getString("title"), rs.getLong("author_id"), rs.getString("password"), rs.getTimestamp("created_at"), rs.getTimestamp("updated_at"));
 
 
     // 전건 조회
     public List<Todo> findAll() {
         return jdbcTemplate.query("SELECT * FROM todo", todoRowMapper);
+    }
+
+    // 작성자 고유 식별자로 일정 전건 조회
+    public List<Todo> findAllByAuthorId(Long authorId) {
+        String sql = """
+            SELECT t.todo_id, t.title, t.password, t.created_at, t.updated_at,
+                   a.author_id, a.name, a.email, a.created_at AS author_created_at, a.updated_at AS author_updated_at
+            FROM todo t
+            JOIN author a ON t.author_id = a.author_id
+            WHERE a.author_id = ?
+        """;
+
+        return jdbcTemplate.query(sql, new Object[]{authorId}, (rs, rowNum) ->
+                Todo.builder()
+                        .todoId(rs.getLong("todo_id"))
+                        .title(rs.getString("title"))
+                        .password(rs.getString("password"))
+                        .createdAt(rs.getTimestamp("created_at"))
+                        .updatedAt(rs.getTimestamp("updated_at"))
+                        .build()
+        );
     }
 
     // 단건 조회
@@ -33,14 +54,14 @@ public class TodoRepository {
 
     // 등록
     public int save(Todo todo) {
-        return jdbcTemplate.update("INSERT INTO todo (title, writer, password) VALUES (?, ?, ?)",
-                todo.getTitle(), todo.getWriter(), todo.getPassword());
+        return jdbcTemplate.update("INSERT INTO todo (title, author_id, password) VALUES (?, ?, ?)",
+                todo.getTitle(), todo.getAuthorId(), todo.getPassword());
     }
 
     // 수정
     public int update(Long todoId, UpdateTodoRequest request, Date now) {
-        return jdbcTemplate.update("UPDATE todo SET title = ?, writer = ?, updated_at = ? WHERE todo_id = ?",
-                request.title(), request.writer(), now, todoId);
+        return jdbcTemplate.update("UPDATE todo SET title = ?, updated_at = ? WHERE todo_id = ? AND author_id = ?",
+                request.title(), now, todoId, request.authorId());
     }
 
     // 삭제

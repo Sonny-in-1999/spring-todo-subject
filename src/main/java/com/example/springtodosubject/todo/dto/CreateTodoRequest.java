@@ -4,7 +4,7 @@ import com.example.springtodosubject.todo.entity.Todo;
 
 public record CreateTodoRequest(
         String title,
-        String writer,
+        Long authorId,
         String password
 ) {
 
@@ -12,7 +12,7 @@ public record CreateTodoRequest(
     public Todo convertToEntity() {
         return Todo.builder()
                 .title(title)
-                .writer(writer)
+                .authorId(authorId)
                 .password(password)
                 .build();
     }

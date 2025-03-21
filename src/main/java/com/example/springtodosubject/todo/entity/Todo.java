@@ -21,9 +21,8 @@ public class Todo {
     @Setter
     private String title;
 
-    // writer
-    @Setter
-    private String writer;
+    // author_Id
+    private Long authorId;
 
     // password
     private String password;
@@ -39,7 +38,6 @@ public class Todo {
         return TodoResponse.builder()
                 .todoId(todoId)
                 .title(title)
-                .writer(writer)
                 .createdAt(createdAt.toLocalDateTime().format(DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 hh시 mm분 ss초")))
                 .updatedAt(updatedAt.toLocalDateTime().format(DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 hh시 mm분 ss초")))
                 .build();

@@ -6,7 +6,6 @@ import lombok.Builder;
 public record TodoResponse(
         Long todoId,
         String title,
-        String writer,
         String createdAt,
         String updatedAt
 ) {
