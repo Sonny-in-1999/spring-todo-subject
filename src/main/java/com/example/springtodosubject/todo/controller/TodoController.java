@@ -19,13 +19,13 @@ public class TodoController {
 
 
     // 전건 조회
-    @GetMapping("/author/{authorId}")
+    @GetMapping("/list/{authorId}")
     public ResponseEntity<List<TodoResponse>> getTodos(@PathVariable Long authorId) {
         List<TodoResponse> todos = todoService.getAllTodos(authorId);
         return ResponseEntity.ok(todos);
     }
 
-    @GetMapping("/todo/{todoId}")
+    @GetMapping("/detail/{todoId}")
     public ResponseEntity<TodoResponse> getTodo(@PathVariable Long todoId) {
         TodoResponse todo = todoService.getTodoById(todoId);
         return ResponseEntity.ok(todo);
