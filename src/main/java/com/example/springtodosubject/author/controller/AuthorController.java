@@ -24,6 +24,13 @@ public class AuthorController {
         return ResponseEntity.status(201).body("작성자 추가완료");
     }
 
+    // 작성자 단건 조회
+    @GetMapping("/{authorId}")
+    public ResponseEntity<AuthorResponse> getAuthor(@PathVariable Long authorId) {
+        AuthorResponse author = authorService.getAuthorById(authorId);
+        return ResponseEntity.ok(author);
+    }
+    
     // 작성자 수정
     @PutMapping("/{authorId}")
     public ResponseEntity<AuthorResponse> updateAuthor(@PathVariable Long authorId, @RequestBody UpdateAuthorRequest request) {

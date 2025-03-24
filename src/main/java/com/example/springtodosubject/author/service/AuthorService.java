@@ -22,6 +22,12 @@ public class AuthorService {
         authorRepository.save(author);
     }
 
+    // 작성자 단건 조회
+    public AuthorResponse getAuthorById(Long authorId) {
+        Author author = authorRepository.findById(authorId);
+        return author.convertToDTO();
+    }
+
     // 작성자 수정
     public AuthorResponse updateAuthor(Long authorId, UpdateAuthorRequest request) {
         Timestamp now = new Timestamp(System.currentTimeMillis()); // 현재시간
