@@ -8,7 +8,7 @@ import com.example.springtodosubject.todo.repository.TodoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.List;
 
 @Service
@@ -43,8 +43,7 @@ public class TodoService {
         if (!todo.getPassword().equals(request.password())) {
             throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
         }
-
-        Date now = new Date(System.currentTimeMillis()); // 현재시간
+        Timestamp now = new Timestamp(System.currentTimeMillis());
         todoRepository.update(todoId, request, now);
         Todo updatedTodo = todoRepository.findById(todoId);
         return updatedTodo.convertToDTO();

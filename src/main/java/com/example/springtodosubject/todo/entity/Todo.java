@@ -34,6 +34,7 @@ public class Todo {
     @Setter
     private Timestamp updatedAt;
 
+    // 응답 DTO로 변환
     public TodoResponse convertToDTO() {
         return TodoResponse.builder()
                 .todoId(todoId)

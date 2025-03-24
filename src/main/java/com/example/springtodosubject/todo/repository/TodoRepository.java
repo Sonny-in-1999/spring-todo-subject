@@ -7,7 +7,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.List;
 
 @Repository
@@ -59,7 +59,7 @@ public class TodoRepository {
     }
 
     // 수정
-    public int update(Long todoId, UpdateTodoRequest request, Date now) {
+    public int update(Long todoId, UpdateTodoRequest request, Timestamp now) {
         return jdbcTemplate.update("UPDATE todo SET title = ?, updated_at = ? WHERE todo_id = ? AND author_id = ?",
                 request.title(), now, todoId, request.authorId());
     }
