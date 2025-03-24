@@ -4,7 +4,6 @@ import com.example.springtodosubject.todo.dto.TodoResponse;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
 
 import java.sql.Timestamp;
 import java.time.format.DateTimeFormatter;
@@ -18,7 +17,6 @@ public class Todo {
     private Long todoId;
 
     // title
-    @Setter
     private String title;
 
     // author_Id
@@ -31,7 +29,6 @@ public class Todo {
     private Timestamp createdAt;
 
     // updated_at
-    @Setter
     private Timestamp updatedAt;
 
     // 응답 DTO로 변환
