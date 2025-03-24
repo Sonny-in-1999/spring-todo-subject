@@ -27,16 +27,17 @@ public class TodoRepository {
     }
 
     // 작성자 고유 식별자로 일정 전건 조회
-    public List<Todo> findAllByAuthorId(Long authorId) {
+    public List<Todo> findAllByAuthorId(Long authorId, int page, int size) {
         String sql = """
             SELECT t.todo_id, t.title, t.password, t.created_at, t.updated_at,
                    a.author_id, a.name, a.email, a.created_at AS author_created_at, a.updated_at AS author_updated_at
             FROM todo t
             JOIN author a ON t.author_id = a.author_id
             WHERE a.author_id = ?
+            LIMIT ? OFFSET ?
         """;
 
-        return jdbcTemplate.query(sql, new Object[]{authorId}, (rs, rowNum) ->
+        return jdbcTemplate.query(sql, new Object[]{authorId, size, page * size}, (rs, rowNum) ->
                 Todo.builder()
                         .todoId(rs.getLong("todo_id"))
                         .title(rs.getString("title"))

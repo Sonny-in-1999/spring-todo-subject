@@ -19,8 +19,8 @@ public class TodoService {
 
 
     // 전건 조회
-    public List<TodoResponse> getAllTodos(Long authorId) {
-        return todoRepository.findAllByAuthorId(authorId).stream()
+    public List<TodoResponse> getAllTodos(Long authorId, int page, int size) {
+        return todoRepository.findAllByAuthorId(authorId, page, size).stream()
                 .map(Todo::convertToDTO)
                 .toList();
     }

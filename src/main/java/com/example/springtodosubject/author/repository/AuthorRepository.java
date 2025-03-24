@@ -21,7 +21,7 @@ public class AuthorRepository {
 
     // 단건 조회
     public Author findById(Long authorId) {
-        return jdbcTemplate.queryForObject("SELECT * FROM todo WHERE author_id = ?", authorRowMapper, authorId);
+        return jdbcTemplate.queryForObject("SELECT * FROM author WHERE author_id = ?", authorRowMapper, authorId);
     }
 
     // 등록
