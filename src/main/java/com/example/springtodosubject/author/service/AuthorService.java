@@ -8,8 +8,6 @@ import com.example.springtodosubject.author.repository.AuthorRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.sql.Timestamp;
-
 @Service
 @RequiredArgsConstructor
 public class AuthorService {
@@ -30,8 +28,7 @@ public class AuthorService {
 
     // 작성자 수정
     public AuthorResponse updateAuthor(Long authorId, UpdateAuthorRequest request) {
-        Timestamp now = new Timestamp(System.currentTimeMillis()); // 현재시간
-        authorRepository.update(authorId, request, now);
+        authorRepository.update(authorId, request);
         Author author = authorRepository.findById(authorId);
         return author.convertToDTO();
     }

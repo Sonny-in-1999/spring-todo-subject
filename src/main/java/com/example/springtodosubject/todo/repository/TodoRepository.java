@@ -7,7 +7,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Timestamp;
 import java.util.List;
 
 @Repository
@@ -21,7 +20,7 @@ public class TodoRepository {
             new Todo(rs.getLong("todo_id"), rs.getString("title"), rs.getLong("author_id"), rs.getString("password"), rs.getTimestamp("created_at"), rs.getTimestamp("updated_at"));
 
 
-    // 전건 조회
+    // 일정 전건 조회
     public List<Todo> findAll() {
         return jdbcTemplate.query("SELECT * FROM todo", todoRowMapper);
     }
@@ -48,24 +47,24 @@ public class TodoRepository {
         );
     }
 
-    // 단건 조회
+    // 일정 단건 조회
     public Todo findById(Long todoId) {
         return jdbcTemplate.queryForObject("SELECT * FROM todo WHERE todo_id = ?", todoRowMapper, todoId);
     }
 
-    // 등록
+    // 일정 등록
     public int save(Todo todo) {
         return jdbcTemplate.update("INSERT INTO todo (title, author_id, password) VALUES (?, ?, ?)",
                 todo.getTitle(), todo.getAuthorId(), todo.getPassword());
     }
 
-    // 수정
-    public int update(Long todoId, UpdateTodoRequest request, Timestamp now) {
-        return jdbcTemplate.update("UPDATE todo SET title = ?, updated_at = ? WHERE todo_id = ? AND author_id = ?",
-                request.title(), now, todoId, request.authorId());
+    // 일정 수정
+    public int update(Long todoId, UpdateTodoRequest request) {
+        return jdbcTemplate.update("UPDATE todo SET title = ?, updated_at = NOW() WHERE todo_id = ? AND author_id = ?",
+                request.title(), todoId, request.authorId());
     }
 
-    // 삭제
+    // 일정 삭제
     public int delete(Long todoId) {
         return jdbcTemplate.update("DELETE FROM todo WHERE todo_id = ?", todoId);
     }

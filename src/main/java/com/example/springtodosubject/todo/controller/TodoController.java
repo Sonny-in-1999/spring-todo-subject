@@ -1,10 +1,12 @@
 package com.example.springtodosubject.todo.controller;
 
 import com.example.springtodosubject.todo.dto.CreateTodoRequest;
+import com.example.springtodosubject.todo.dto.DeleteTodoRequest;
 import com.example.springtodosubject.todo.dto.TodoResponse;
 import com.example.springtodosubject.todo.dto.UpdateTodoRequest;
 import com.example.springtodosubject.todo.service.TodoService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,7 +40,7 @@ public class TodoController {
     @PostMapping
     public ResponseEntity<String> createTodo(@RequestBody CreateTodoRequest request) {
         todoService.createTodo(request);
-        return ResponseEntity.status(201).body("할 일 추가완료");
+        return ResponseEntity.status(HttpStatus.CREATED).body("할 일 추가완료");
     }
 
     @PutMapping("/{todoId}")
@@ -48,8 +50,8 @@ public class TodoController {
     }
 
     @DeleteMapping("/{todoId}")
-    public ResponseEntity<String> deleteTodo(@PathVariable Long todoId) {
-        todoService.DeleteTodo(todoId);
+    public ResponseEntity<String> deleteTodo(@PathVariable Long todoId, @RequestBody DeleteTodoRequest request) {
+        todoService.deleteTodo(todoId, request);
         return ResponseEntity.ok().body("할 일 삭제완료");
     }
 }

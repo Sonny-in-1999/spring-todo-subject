@@ -7,8 +7,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Timestamp;
-
 @Repository
 @RequiredArgsConstructor
 public class AuthorRepository {
@@ -31,9 +29,9 @@ public class AuthorRepository {
     }
 
     // 수정
-    public int update(Long authorId, UpdateAuthorRequest request, Timestamp now) {
-        return jdbcTemplate.update("UPDATE author SET name = ?, email = ?, updated_at = ? WHERE author_id = ?",
-                request.name(), request.email(),now, authorId);
+    public int update(Long authorId, UpdateAuthorRequest request) {
+        return jdbcTemplate.update("UPDATE author SET name = ?, email = ?, updated_at = NOW() WHERE author_id = ?",
+                request.name(), request.email(), authorId);
     }
 
     // 삭제
