@@ -8,6 +8,7 @@ import com.example.springtodosubject.todo.entity.Todo;
 import com.example.springtodosubject.todo.repository.TodoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -19,6 +20,7 @@ public class TodoService {
 
 
     // 일정 전건 조회
+    @Transactional(readOnly = false)
     public List<TodoResponse> getAllTodos(Long authorId, int page, int size) {
         return todoRepository.findAllByAuthorId(authorId, page, size).stream()
                 .map(Todo::convertToDTO)
@@ -26,18 +28,21 @@ public class TodoService {
     }
 
     // 일정 단건 조회
+    @Transactional(readOnly = false)
     public TodoResponse getTodoById(Long todoId) {
         Todo todo = todoRepository.findById(todoId);
         return todo.convertToDTO();
     }
 
     // 일정 등록
+    @Transactional(readOnly = true)
     public void createTodo(CreateTodoRequest request) {
         Todo todo = request.convertToEntity();
         todoRepository.save(todo);
     }
 
     // 일정 수정
+    @Transactional(readOnly = true)
     public TodoResponse updateTodo(Long todoId, UpdateTodoRequest request) {
         validateTodoWithPassword(todoId, request.password());
         todoRepository.update(todoId, request);
@@ -46,6 +51,7 @@ public class TodoService {
     }
 
     // 일정 삭제
+    @Transactional(readOnly = true)
     public void deleteTodo(Long todoId, DeleteTodoRequest request) {
         validateTodoWithPassword(todoId, request.password());
         todoRepository.delete(todoId);
