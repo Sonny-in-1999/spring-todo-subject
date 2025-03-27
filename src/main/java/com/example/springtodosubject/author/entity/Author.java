@@ -5,7 +5,6 @@ import com.example.springtodosubject.common.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.sql.Timestamp;
 import java.time.format.DateTimeFormatter;
 
 @Table(name = "author")
