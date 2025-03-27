@@ -1,9 +1,6 @@
 package com.example.springtodosubject.todo.controller;
 
-import com.example.springtodosubject.todo.dto.CreateTodoRequest;
-import com.example.springtodosubject.todo.dto.DeleteTodoRequest;
-import com.example.springtodosubject.todo.dto.TodoResponse;
-import com.example.springtodosubject.todo.dto.UpdateTodoRequest;
+import com.example.springtodosubject.todo.dto.*;
 import com.example.springtodosubject.todo.service.TodoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -22,13 +19,13 @@ public class TodoController {
 
     // 전건 조회
     @GetMapping
-    public ResponseEntity<List<TodoResponse>> getTodos(
+    public ResponseEntity<TodoPageResponse<List<TodoResponse>>> getTodos(
             @RequestParam Long authorId,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size
     ) {
-        List<TodoResponse> todos = todoService.getAllTodos(authorId, page, size);
-        return ResponseEntity.ok(todos);
+        TodoPageResponse<List<TodoResponse>> todoList = todoService.getAllTodos(authorId, page, size);
+        return ResponseEntity.ok(todoList);
     }
 
     @GetMapping("/{todoId}")
@@ -38,9 +35,9 @@ public class TodoController {
     }
 
     @PostMapping
-    public ResponseEntity<String> createTodo(@RequestBody CreateTodoRequest request) {
-        todoService.createTodo(request);
-        return ResponseEntity.status(HttpStatus.CREATED).body("할 일 추가완료");
+    public ResponseEntity<TodoResponse> createTodo(@RequestBody CreateTodoRequest request) {
+        TodoResponse todo = todoService.createTodo(request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(todo);
     }
 
     @PutMapping("/{todoId}")
@@ -52,6 +49,6 @@ public class TodoController {
     @DeleteMapping("/{todoId}")
     public ResponseEntity<String> deleteTodo(@PathVariable Long todoId, @RequestBody DeleteTodoRequest request) {
         todoService.deleteTodo(todoId, request);
-        return ResponseEntity.ok().body("할 일 삭제완료");
+        return ResponseEntity.ok("할 일 삭제완료");
     }
 }

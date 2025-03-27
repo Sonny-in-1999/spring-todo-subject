@@ -1,6 +1,21 @@
 spring:
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: "jdbc:mysql://localhost:3306/todo?useSSL=false&useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Seoul"
+    url: "jdbc:mysql://localhost:3306/schedule?useSSL=false&useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Seoul"
     username: "root"
     password: "596931"
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      # 개발 과정 편의를 위해 create-drop 사용: 애플리케이션 실행마다 테이블을 전부 삭제하고 엔티티 클래스를 읽어 테이블을 다시 생성합니다.
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true # 콘솔에서 쿼리 로그 출력
+    open-in-view: false # 성능에 불이익을 줄 수 있기에 사용하지 않는 경우 비활성화
+
+# 애플리케이션 시작 시 SQL 스크립트 실행
+#  sql:
+#    init:
+#      mode: always
