@@ -1,19 +1,24 @@
 package com.example.springtodosubject.author.entity;
 
 import com.example.springtodosubject.author.dto.AuthorResponse;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
+import com.example.springtodosubject.common.entity.BaseEntity;
+import jakarta.persistence.*;
+import lombok.*;
 
 import java.sql.Timestamp;
 import java.time.format.DateTimeFormatter;
 
+@Table(name = "author")
+@Entity
 @Builder
 @Getter
 @AllArgsConstructor
-public class Author {
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class Author extends BaseEntity {
 
     // author_id
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long authorId;
 
     // name
@@ -22,11 +27,6 @@ public class Author {
     // email
     private String email;
 
-    // created_at
-    private Timestamp createdAt;
-
-    // updated_at
-    private Timestamp updatedAt;
 
     // 응답 DTO로 변환
     public AuthorResponse convertToDTO() {
@@ -34,8 +34,8 @@ public class Author {
                 .authorId(authorId)
                 .name(name)
                 .email(email)
-                .createdAt(createdAt.toLocalDateTime().format(DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 hh시 mm분 ss초")))
-                .updatedAt(updatedAt.toLocalDateTime().format(DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 hh시 mm분 ss초")))
+                .createdAt(getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 hh시 mm분 ss초")))
+                .updatedAt(getUpdatedAt().format(DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 hh시 mm분 ss초")))
                 .build();
     }
 }
