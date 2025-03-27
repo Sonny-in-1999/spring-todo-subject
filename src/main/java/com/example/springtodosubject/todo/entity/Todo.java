@@ -3,6 +3,7 @@ package com.example.springtodosubject.todo.entity;
 import com.example.springtodosubject.common.entity.BaseEntity;
 import com.example.springtodosubject.todo.dto.TodoResponse;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.time.format.DateTimeFormatter;
@@ -22,14 +23,17 @@ public class Todo extends BaseEntity {
 
     // title
     @Column(name = "title")
+    @NotNull
     private String title;
 
     // author_Id
     @Column(name = "author_Id")
+    @NotNull
     private Long authorId;
 
     // password
     @Column(name = "password")
+    @NotNull
     private String password;
 
 

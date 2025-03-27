@@ -1,5 +1,6 @@
 package com.example.springtodosubject.todo.controller;
 
+import com.example.springtodosubject.common.dto.PageResponse;
 import com.example.springtodosubject.todo.dto.*;
 import com.example.springtodosubject.todo.service.TodoService;
 import lombok.RequiredArgsConstructor;
@@ -19,12 +20,12 @@ public class TodoController {
 
     // 전건 조회
     @GetMapping
-    public ResponseEntity<TodoPageResponse<List<TodoResponse>>> getTodos(
+    public ResponseEntity<PageResponse<List<TodoResponse>>> getTodos(
             @RequestParam Long authorId,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size
     ) {
-        TodoPageResponse<List<TodoResponse>> todoList = todoService.getAllTodos(authorId, page, size);
+        PageResponse<List<TodoResponse>> todoList = todoService.getAllTodos(authorId, page, size);
         return ResponseEntity.ok(todoList);
     }
 

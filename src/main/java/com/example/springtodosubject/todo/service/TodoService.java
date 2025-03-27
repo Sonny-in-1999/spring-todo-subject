@@ -1,5 +1,6 @@
 package com.example.springtodosubject.todo.service;
 
+import com.example.springtodosubject.common.dto.PageResponse;
 import com.example.springtodosubject.todo.dto.*;
 import com.example.springtodosubject.todo.entity.Todo;
 import com.example.springtodosubject.todo.repository.TodoRepository;
@@ -23,13 +24,13 @@ public class TodoService {
 
     // 일정 전건 조회
     @Transactional(readOnly = true)
-    public TodoPageResponse<List<TodoResponse>> getAllTodos(Long authorId, int page, int size) {
+    public PageResponse<List<TodoResponse>> getAllTodos(Long authorId, int page, int size) {
         Sort sort = Sort.by(Sort.Direction.DESC, "created_at");
         Pageable pageable = PageRequest.of(page, size, sort);
         Page<Todo> todoPage = todoRepository.findAllByAuthorId(authorId, pageable);
         List<TodoResponse> responseList = todoPage.stream().map(Todo::convertToDTO).toList();
 
-        return TodoPageResponse.<List<TodoResponse>>builder()
+        return PageResponse.<List<TodoResponse>>builder()
                 .data(responseList)
                 .currentPage(todoPage.getTotalPages())
                 .totalPage(todoPage.getTotalPages())

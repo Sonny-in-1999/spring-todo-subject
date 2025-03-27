@@ -1,9 +1,9 @@
-package com.example.springtodosubject.todo.dto;
+package com.example.springtodosubject.common.dto;
 
 import lombok.Builder;
 
 @Builder
-public record TodoPageResponse<T>(
+public record PageResponse<T>(
         T data,
         int currentPage,
         int totalPage,
