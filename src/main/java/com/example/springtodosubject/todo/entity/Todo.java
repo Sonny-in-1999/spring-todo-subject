@@ -1,10 +1,10 @@
 package com.example.springtodosubject.todo.entity;
 
+import com.example.springtodosubject.common.entity.BaseEntity;
 import com.example.springtodosubject.todo.dto.TodoResponse;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.sql.Timestamp;
 import java.time.format.DateTimeFormatter;
 
 @Table(name = "todo")
@@ -13,7 +13,7 @@ import java.time.format.DateTimeFormatter;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Todo {
+public class Todo extends BaseEntity {
 
     // todo_id(pk)
     @Id
@@ -32,14 +32,6 @@ public class Todo {
     @Column(name = "password")
     private String password;
 
-    // created_at
-    @Column(name = "created_at")
-    private Timestamp createdAt;
-
-    // updated_at
-    @Column(name = "updated_at")
-    private Timestamp updatedAt;
-
 
     public void update(String title) {
         this.title = title;
@@ -50,8 +42,8 @@ public class Todo {
         return TodoResponse.builder()
                 .todoId(todoId)
                 .title(title)
-                .createdAt(createdAt.toLocalDateTime().format(DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 hh시 mm분 ss초")))
-                .updatedAt(updatedAt.toLocalDateTime().format(DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 hh시 mm분 ss초")))
+                .createdAt(getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 hh시 mm분 ss초")))
+                .updatedAt(getUpdatedAt().format(DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 hh시 mm분 ss초")))
                 .build();
     }
 }
