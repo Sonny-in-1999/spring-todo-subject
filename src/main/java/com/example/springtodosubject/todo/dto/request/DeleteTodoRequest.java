@@ -1,4 +1,4 @@
-package com.example.springtodosubject.todo.dto;
+package com.example.springtodosubject.todo.dto.request;
 
 import jakarta.validation.constraints.NotNull;
 

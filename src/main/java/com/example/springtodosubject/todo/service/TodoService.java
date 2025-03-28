@@ -1,7 +1,12 @@
 package com.example.springtodosubject.todo.service;
 
+import com.example.springtodosubject.author.entity.Author;
+import com.example.springtodosubject.author.repository.AuthorRepository;
 import com.example.springtodosubject.common.dto.PageResponse;
-import com.example.springtodosubject.todo.dto.*;
+import com.example.springtodosubject.todo.dto.request.CreateTodoRequest;
+import com.example.springtodosubject.todo.dto.request.DeleteTodoRequest;
+import com.example.springtodosubject.todo.dto.request.UpdateTodoRequest;
+import com.example.springtodosubject.todo.dto.response.TodoResponse;
 import com.example.springtodosubject.todo.entity.Todo;
 import com.example.springtodosubject.todo.repository.TodoRepository;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +25,7 @@ import java.util.Optional;
 public class TodoService {
 
     private final TodoRepository todoRepository;
+    private final AuthorRepository authorRepository;
 
 
     // 일정 전건 조회
@@ -48,7 +54,11 @@ public class TodoService {
     // 일정 등록
     @Transactional
     public TodoResponse createTodo(CreateTodoRequest request) {
-        Todo todo = request.convertToEntity();
+        Optional<Author> author = authorRepository.findById(request.authorId());
+        if (author.isEmpty()) {
+            throw new IllegalArgumentException("존재하지 않는 작성자 정보입니다.");
+        }
+        Todo todo = request.convertToEntity(author.get());
         Todo savedTodo = todoRepository.save(todo);
         return savedTodo.convertToDTO();
     }

@@ -1,7 +1,8 @@
 package com.example.springtodosubject.todo.entity;
 
+import com.example.springtodosubject.author.entity.Author;
 import com.example.springtodosubject.common.entity.BaseEntity;
-import com.example.springtodosubject.todo.dto.TodoResponse;
+import com.example.springtodosubject.todo.dto.response.TodoResponse;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -26,10 +27,10 @@ public class Todo extends BaseEntity {
     @NotNull
     private String title;
 
-    // author_Id
-    @Column(name = "author_Id")
-    @NotNull
-    private Long authorId;
+    // author_id
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "author_id")
+    private Author author;
 
     // password
     @Column(name = "password")
@@ -45,6 +46,8 @@ public class Todo extends BaseEntity {
     public TodoResponse convertToDTO() {
         return TodoResponse.builder()
                 .todoId(todoId)
+                .writerName(author.getName())
+                .writerEmail(author.getEmail())
                 .title(title)
                 .createdAt(getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 hh시 mm분 ss초")))
                 .updatedAt(getUpdatedAt().format(DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 hh시 mm분 ss초")))

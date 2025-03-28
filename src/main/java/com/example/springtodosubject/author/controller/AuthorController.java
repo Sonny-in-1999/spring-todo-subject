@@ -1,8 +1,8 @@
 package com.example.springtodosubject.author.controller;
 
-import com.example.springtodosubject.author.dto.AuthorResponse;
-import com.example.springtodosubject.author.dto.CreateAuthorRequest;
-import com.example.springtodosubject.author.dto.UpdateAuthorRequest;
+import com.example.springtodosubject.author.dto.response.AuthorResponse;
+import com.example.springtodosubject.author.dto.request.CreateAuthorRequest;
+import com.example.springtodosubject.author.dto.request.UpdateAuthorRequest;
 import com.example.springtodosubject.author.service.AuthorService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -17,12 +17,11 @@ public class AuthorController {
 
     private final AuthorService authorService;
 
-
     // 작성자 추가
     @PostMapping
-    public ResponseEntity<String> createAuthor(@RequestBody CreateAuthorRequest request) {
-        authorService.createAuthor(request);
-        return ResponseEntity.status(HttpStatus.CREATED).body("작성자 추가완료");
+    public ResponseEntity<AuthorResponse> createAuthor(@RequestBody CreateAuthorRequest request) {
+        AuthorResponse author = authorService.createAuthor(request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(author);
     }
 
     // 작성자 단건 조회

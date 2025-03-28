@@ -1,4 +1,4 @@
-package com.example.springtodosubject.author.dto;
+package com.example.springtodosubject.author.dto.request;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -12,6 +12,9 @@ public record UpdateAuthorRequest(
                 message = "유효한 이메일 주소를 입력해주세요."
         )
         @NotNull(message = "이메일이 반드시 포함되어야합니다.")
-        String email
+        String email,
+
+        @NotNull(message = "일정 관리 비밀번호가 반드시 포함되어야 합니다.")
+        String password
 ) {
 }

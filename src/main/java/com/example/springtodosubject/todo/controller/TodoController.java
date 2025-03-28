@@ -1,7 +1,10 @@
 package com.example.springtodosubject.todo.controller;
 
 import com.example.springtodosubject.common.dto.PageResponse;
-import com.example.springtodosubject.todo.dto.*;
+import com.example.springtodosubject.todo.dto.request.CreateTodoRequest;
+import com.example.springtodosubject.todo.dto.request.DeleteTodoRequest;
+import com.example.springtodosubject.todo.dto.request.UpdateTodoRequest;
+import com.example.springtodosubject.todo.dto.response.TodoResponse;
 import com.example.springtodosubject.todo.service.TodoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

@@ -1,5 +1,6 @@
-package com.example.springtodosubject.todo.dto;
+package com.example.springtodosubject.todo.dto.request;
 
+import com.example.springtodosubject.author.entity.Author;
 import com.example.springtodosubject.todo.entity.Todo;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -18,10 +19,10 @@ public record CreateTodoRequest(
 ) {
 
     // Entity로 변환
-    public Todo convertToEntity() {
+    public Todo convertToEntity(Author author) {
         return Todo.builder()
                 .title(title)
-                .authorId(authorId)
+                .author(author)
                 .password(password)
                 .build();
     }
