@@ -1,8 +1,9 @@
 package com.example.springtodosubject.author.service;
 
-import com.example.springtodosubject.author.dto.response.AuthorResponse;
-import com.example.springtodosubject.author.dto.request.CreateAuthorRequest;
+import com.example.springtodosubject.auth.component.PasswordEncoder;
+import com.example.springtodosubject.author.dto.request.DeleteAuthorRequest;
 import com.example.springtodosubject.author.dto.request.UpdateAuthorRequest;
+import com.example.springtodosubject.author.dto.response.AuthorResponse;
 import com.example.springtodosubject.author.entity.Author;
 import com.example.springtodosubject.author.repository.AuthorRepository;
 import lombok.RequiredArgsConstructor;
@@ -16,14 +17,7 @@ import java.util.Optional;
 public class AuthorService {
 
     private final AuthorRepository authorRepository;
-
-    // 작성자 추가
-    @Transactional
-    public AuthorResponse createAuthor(CreateAuthorRequest request) {
-        Author author = request.convertToEntity();
-        Author savedAuthor = authorRepository.save(author);
-        return savedAuthor.convertToDTO();
-    }
+    private final PasswordEncoder passwordEncoder;
 
     // 작성자 단건 조회
     @Transactional(readOnly = true)
@@ -36,15 +30,23 @@ public class AuthorService {
     @Transactional
     public AuthorResponse updateAuthor(Long authorId, UpdateAuthorRequest request) {
         Author author = validateAuthor(authorId);
-        author.update(request);
-        return author.convertToDTO();
+        if (passwordEncoder.matches(request.password(), author.getPassword())) {
+            author.update(request);
+            return author.convertToDTO();
+        } else {
+            throw new IllegalArgumentException("비밀번호를 다시 한 번 확인해주세요.");
+        }
     }
 
     // 작성자 삭제
     @Transactional
-    public void deleteAuthor(Long authorId) {
+    public void deleteAuthor(Long authorId, DeleteAuthorRequest request) {
         Author author = validateAuthor(authorId);
-        authorRepository.delete(author);
+        if (passwordEncoder.matches(request.password(), author.getPassword())) {
+            authorRepository.delete(author);
+        } else {
+            throw new IllegalArgumentException("비밀번호를 다시 한 번 확인해주세요.");
+        }
     }
 
     private Author validateAuthor(Long authorId) {

@@ -34,6 +34,7 @@ public class Author extends BaseEntity {
 
     // password
     @Column(name = "password", nullable = false)
+    @Setter
     private String password;
 
     // 일정 일대다 매핑

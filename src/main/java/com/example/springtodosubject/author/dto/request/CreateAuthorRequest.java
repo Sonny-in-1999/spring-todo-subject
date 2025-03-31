@@ -16,7 +16,7 @@ public record CreateAuthorRequest(
         @NotNull(message = "이메일이 반드시 포함되어야합니다.")
         String email,
 
-        @NotNull(message = "일정 관리 비밀번호가 반드시 포함되어야 합니다.")
+        @NotNull(message = "비밀번호가 반드시 포함되어야 합니다.")
         String password
 ) {
 

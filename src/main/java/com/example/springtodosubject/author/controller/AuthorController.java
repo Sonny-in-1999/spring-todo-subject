@@ -1,11 +1,10 @@
 package com.example.springtodosubject.author.controller;
 
-import com.example.springtodosubject.author.dto.response.AuthorResponse;
-import com.example.springtodosubject.author.dto.request.CreateAuthorRequest;
+import com.example.springtodosubject.author.dto.request.DeleteAuthorRequest;
 import com.example.springtodosubject.author.dto.request.UpdateAuthorRequest;
+import com.example.springtodosubject.author.dto.response.AuthorResponse;
 import com.example.springtodosubject.author.service.AuthorService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -16,13 +15,6 @@ import org.springframework.web.bind.annotation.*;
 public class AuthorController {
 
     private final AuthorService authorService;
-
-    // 작성자 추가
-    @PostMapping
-    public ResponseEntity<AuthorResponse> createAuthor(@RequestBody CreateAuthorRequest request) {
-        AuthorResponse author = authorService.createAuthor(request);
-        return ResponseEntity.status(HttpStatus.CREATED).body(author);
-    }
 
     // 작성자 단건 조회
     @GetMapping("/{authorId}")
@@ -40,8 +32,8 @@ public class AuthorController {
 
     // 작성자 삭제
     @DeleteMapping("/{authorId}")
-    public ResponseEntity<String> deleteAuthor(@PathVariable Long authorId) {
-        authorService.deleteAuthor(authorId);
+    public ResponseEntity<String> deleteAuthor(@PathVariable Long authorId, @RequestBody DeleteAuthorRequest request) {
+        authorService.deleteAuthor(authorId, request);
         return ResponseEntity.ok("작성자 삭제완료");
     }
 }

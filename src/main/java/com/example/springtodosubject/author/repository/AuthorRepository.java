@@ -10,4 +10,6 @@ public interface AuthorRepository extends JpaRepository<Author, Long> {
 
     @EntityGraph(attributePaths = "todoList")
     Optional<Author> findById(Long authorId);
+
+    Optional<Author> findByEmail(String email);
 }
