@@ -2,11 +2,8 @@ package com.example.springtodosubject.todo.entity;
 
 import com.example.springtodosubject.author.entity.Author;
 import com.example.springtodosubject.common.entity.BaseEntity;
-import com.example.springtodosubject.todo.dto.response.TodoResponse;
 import jakarta.persistence.*;
 import lombok.*;
-
-import java.time.format.DateTimeFormatter;
 
 @Table(name = "todo")
 @Entity
@@ -37,17 +34,5 @@ public class Todo extends BaseEntity {
 
     public void update(String title) {
         this.title = title;
-    }
-
-    // 응답 DTO로 변환
-    public TodoResponse convertToDTO() {
-        return TodoResponse.builder()
-                .todoId(todoId)
-                .writerName(author.getName())
-                .writerEmail(author.getEmail())
-                .title(title)
-                .createdAt(getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 hh시 mm분 ss초")))
-                .updatedAt(getUpdatedAt().format(DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 hh시 mm분 ss초")))
-                .build();
     }
 }

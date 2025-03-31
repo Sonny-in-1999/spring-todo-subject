@@ -1,13 +1,11 @@
 package com.example.springtodosubject.author.entity;
 
 import com.example.springtodosubject.author.dto.request.UpdateAuthorRequest;
-import com.example.springtodosubject.author.dto.response.AuthorResponse;
 import com.example.springtodosubject.common.entity.BaseEntity;
 import com.example.springtodosubject.todo.entity.Todo;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,17 +44,5 @@ public class Author extends BaseEntity {
         if (!request.password().equals(password)) {
             throw new IllegalArgumentException("비밀번호가 틀렸습니다.");
         }
-    }
-
-    // 응답 DTO로 변환
-    public AuthorResponse convertToDTO() {
-        return AuthorResponse.builder()
-                .authorId(authorId)
-                .name(name)
-                .email(email)
-                .createdAt(getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 hh시 mm분 ss초")))
-                .updatedAt(getUpdatedAt().format(DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 hh시 mm분 ss초")))
-                .todoList(todoList.stream().map(Todo::convertToDTO).toList())
-                .build();
     }
 }

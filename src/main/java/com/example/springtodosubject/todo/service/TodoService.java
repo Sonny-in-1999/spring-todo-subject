@@ -29,12 +29,11 @@ public class TodoService {
 
 
     // 일정 전건 조회
-    @Transactional(readOnly = true)
     public PageResponse<List<TodoResponse>> getAllTodos(Long authorId, int page, int size) {
         Sort sort = Sort.by(Sort.Direction.DESC, "created_at");
         Pageable pageable = PageRequest.of(page, size, sort);
         Page<Todo> todoPage = todoRepository.findAllByAuthorId(authorId, pageable);
-        List<TodoResponse> responseList = todoPage.stream().map(Todo::convertToDTO).toList();
+        List<TodoResponse> responseList = todoPage.stream().map(TodoResponse::of).toList();
 
         return PageResponse.<List<TodoResponse>>builder()
                 .data(responseList)
@@ -45,10 +44,9 @@ public class TodoService {
     }
 
     // 일정 단건 조회
-    @Transactional(readOnly = true)
     public TodoResponse getTodoById(Long todoId) {
         Todo todo = validateTodo(todoId);
-        return todo.convertToDTO();
+        return TodoResponse.of(todo);
     }
 
     // 일정 등록
@@ -60,7 +58,7 @@ public class TodoService {
         }
         Todo todo = request.convertToEntity(author.get());
         Todo savedTodo = todoRepository.save(todo);
-        return savedTodo.convertToDTO();
+        return TodoResponse.of(savedTodo);
     }
 
     // 일정 수정
@@ -68,7 +66,7 @@ public class TodoService {
     public TodoResponse updateTodo(Long todoId, UpdateTodoRequest request) {
         Todo todo = validateTodoWithPassword(todoId, request.password());
         todo.update(request.title()); // 더티체킹 -> save() 불필요
-        return todo.convertToDTO();
+        return TodoResponse.of(todo);
     }
 
     // 일정 삭제

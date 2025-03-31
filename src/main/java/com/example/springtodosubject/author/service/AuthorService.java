@@ -20,10 +20,9 @@ public class AuthorService {
     private final PasswordEncoder passwordEncoder;
 
     // 작성자 단건 조회
-    @Transactional(readOnly = true)
     public AuthorResponse getAuthorById(Long authorId) {
         Author author = validateAuthor(authorId);
-        return author.convertToDTO();
+        return AuthorResponse.of(author);
     }
 
     // 작성자 수정
@@ -32,7 +31,7 @@ public class AuthorService {
         Author author = validateAuthor(authorId);
         if (passwordEncoder.matches(request.password(), author.getPassword())) {
             author.update(request);
-            return author.convertToDTO();
+            return AuthorResponse.of(author);
         } else {
             throw new IllegalArgumentException("비밀번호를 다시 한 번 확인해주세요.");
         }
