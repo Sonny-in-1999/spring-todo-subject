@@ -1,11 +1,10 @@
 package com.example.springtodosubject.author.entity;
 
-import com.example.springtodosubject.author.dto.response.AuthorResponse;
 import com.example.springtodosubject.author.dto.request.UpdateAuthorRequest;
+import com.example.springtodosubject.author.dto.response.AuthorResponse;
 import com.example.springtodosubject.common.entity.BaseEntity;
 import com.example.springtodosubject.todo.entity.Todo;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.time.format.DateTimeFormatter;
@@ -26,18 +25,15 @@ public class Author extends BaseEntity {
     private Long authorId;
 
     // name
-    @Column(name = "name")
-    @NotNull
+    @Column(name = "name", nullable = false)
     private String name;
 
     // email
-    @Column(name = "email")
-    @NotNull
+    @Column(name = "email", unique = true, nullable = false)
     private String email;
 
     // password
-    @Column(name = "password")
-    @NotNull
+    @Column(name = "password", nullable = false)
     private String password;
 
     // 일정 일대다 매핑

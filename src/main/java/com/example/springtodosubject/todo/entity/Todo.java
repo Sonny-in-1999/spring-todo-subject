@@ -4,7 +4,6 @@ import com.example.springtodosubject.author.entity.Author;
 import com.example.springtodosubject.common.entity.BaseEntity;
 import com.example.springtodosubject.todo.dto.response.TodoResponse;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.time.format.DateTimeFormatter;
@@ -23,8 +22,7 @@ public class Todo extends BaseEntity {
     private Long todoId;
 
     // title
-    @Column(name = "title")
-    @NotNull
+    @Column(name = "title", nullable = false)
     private String title;
 
     // author_id
@@ -33,8 +31,7 @@ public class Todo extends BaseEntity {
     private Author author;
 
     // password
-    @Column(name = "password")
-    @NotNull
+    @Column(name = "password", nullable = false)
     private String password;
 
 
