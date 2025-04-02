@@ -6,7 +6,10 @@ import com.example.springtodosubject.author.dto.request.UpdateAuthorRequest;
 import com.example.springtodosubject.author.dto.response.AuthorResponse;
 import com.example.springtodosubject.author.entity.Author;
 import com.example.springtodosubject.author.repository.AuthorRepository;
+import com.example.springtodosubject.common.exception.ForbiddenException;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,8 +29,14 @@ public class AuthorService {
 
     // 작성자 수정
     @Transactional
-    public AuthorResponse updateAuthor(Long authorId, UpdateAuthorRequest request) {
+    public AuthorResponse updateAuthor(Long authorId, UpdateAuthorRequest request, HttpServletRequest req) {
         Author author = validateAuthor(authorId);
+        HttpSession session = req.getSession();
+        String userEmail = (String) session.getAttribute("user");
+        if (author.getEmail().equals(userEmail)) {
+            throw new ForbiddenException("유저 정보 수정 권한이 없습니다.");
+        }
+
         if (passwordEncoder.matches(request.password(), author.getPassword())) {
             author.update(request);
             return AuthorResponse.of(author);
@@ -38,8 +47,14 @@ public class AuthorService {
 
     // 작성자 삭제
     @Transactional
-    public void deleteAuthor(Long authorId, DeleteAuthorRequest request) {
+    public void deleteAuthor(Long authorId, DeleteAuthorRequest request, HttpServletRequest req) {
         Author author = validateAuthor(authorId);
+        HttpSession session = req.getSession();
+        String userEmail = (String) session.getAttribute("user");
+        if (author.getEmail().equals(userEmail)) {
+            throw new ForbiddenException("유저 삭제 권한이 없습니다.");
+        }
+        
         if (passwordEncoder.matches(request.password(), author.getPassword())) {
             authorRepository.delete(author);
         } else {
