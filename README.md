@@ -8,5 +8,3 @@
 ## [API Spec](https://docs.google.com/spreadsheets/d/19b0rKS7Jz__lCiEKFq__mzaaunUcZ0u2rTuKykBQViY/edit?usp=sharing)
 
 ## [ERD](erd.png)
-
-## [ERD](https://github.com/Sonny-in-1999/spring-todo-subject/blob/main/erd.png)
