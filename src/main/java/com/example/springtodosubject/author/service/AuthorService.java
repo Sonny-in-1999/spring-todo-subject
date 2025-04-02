@@ -6,11 +6,10 @@ import com.example.springtodosubject.author.dto.request.UpdateAuthorRequest;
 import com.example.springtodosubject.author.dto.response.AuthorResponse;
 import com.example.springtodosubject.author.entity.Author;
 import com.example.springtodosubject.author.repository.AuthorRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -49,11 +48,7 @@ public class AuthorService {
     }
 
     private Author validateAuthor(Long authorId) {
-        Optional<Author> author = authorRepository.findById(authorId);
-        if (author.isPresent()) {
-            return author.get();
-        } else {
-            throw new IllegalArgumentException("존재하지 않는 작성자입니다.");
-        }
+        return authorRepository.findById(authorId)
+                .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 작성자입니다."));
     }
 }

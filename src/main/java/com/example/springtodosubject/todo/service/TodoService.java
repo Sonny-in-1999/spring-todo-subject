@@ -9,6 +9,7 @@ import com.example.springtodosubject.todo.dto.request.UpdateTodoRequest;
 import com.example.springtodosubject.todo.dto.response.TodoResponse;
 import com.example.springtodosubject.todo.entity.Todo;
 import com.example.springtodosubject.todo.repository.TodoRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -78,12 +79,8 @@ public class TodoService {
 
     // 존재하는 일정인지 검증
     private Todo validateTodo(Long todoId) {
-        Optional<Todo> todo = todoRepository.findById(todoId);
-        if (todo.isPresent()) {
-            return todo.get();
-        } else {
-            throw new IllegalArgumentException("존재하지 않는 일정입니다.");
-        }
+        return todoRepository.findById(todoId)
+                .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 일정입니다."));
     }
 
     // 비밀번호 검증
