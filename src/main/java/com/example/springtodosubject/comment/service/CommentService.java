@@ -27,11 +27,13 @@ public class CommentService {
     private final AuthorRepository authorRepository;
     private final TodoRepository todoRepository;
 
+    // 일정 댓글 목록 조회
     public List<CommentResponse> getAllComments(Long todoId) {
         List<Comment> commentList = commentRepository.getByTodo_TodoId(todoId);
         return commentList.stream().map(CommentResponse::of).toList();
     }
 
+    // 일정 댓글 등록
     @Transactional
     public CommentResponse createComment(Long todoId, CreateCommentRequest request, HttpServletRequest req) {
         HttpSession session = req.getSession();
@@ -49,6 +51,7 @@ public class CommentService {
         return CommentResponse.of(savedComment);
     }
 
+    // 일정 댓글 수정
     @Transactional
     public CommentResponse updateComment(Long commentId, UpdateCommentRequest request, HttpServletRequest req) {
         Comment comment = validateComment(commentId);
@@ -64,6 +67,7 @@ public class CommentService {
         return CommentResponse.of(comment);
     }
 
+    // 일정 댓글 삭제
     @Transactional
     public void deleteComment(Long commentId, HttpServletRequest req) {
         Comment comment = validateComment(commentId);

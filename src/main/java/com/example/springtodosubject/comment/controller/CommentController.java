@@ -19,12 +19,14 @@ public class CommentController {
 
     private final CommentService commentService;
 
+    // 일정 댓글 목록 조회
     @GetMapping("/{todoId}")
     public ResponseEntity<List<CommentResponse>> getComments(@PathVariable Long todoId) {
         List<CommentResponse> commentList = commentService.getAllComments(todoId);
         return ResponseEntity.ok(commentList);
     }
 
+    // 일정 댓글 등록
     @PostMapping("/{todoId}")
     public ResponseEntity<CommentResponse> createComment(@PathVariable Long todoId,
                                                          @RequestBody CreateCommentRequest request,
@@ -34,6 +36,7 @@ public class CommentController {
         return ResponseEntity.status(HttpStatus.CREATED).body(comment);
     }
 
+    // 일정 댓글 수정
     @PutMapping("/{commentId}")
     public ResponseEntity<CommentResponse> updateComment(
             @PathVariable Long commentId,
@@ -44,6 +47,7 @@ public class CommentController {
         return ResponseEntity.ok(comment);
     }
 
+    // 일정 댓글 삭제
     @DeleteMapping("/{commentId}")
     public ResponseEntity<String> deleteComment(@PathVariable Long commentId, HttpServletRequest req) {
         commentService.deleteComment(commentId, req);
