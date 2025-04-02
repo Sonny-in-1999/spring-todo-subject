@@ -33,11 +33,14 @@ public class CommentService {
     }
 
     @Transactional
-    public CommentResponse createComment(CreateCommentRequest request) {
-        Author author = authorRepository.findById(request.authorId())
+    public CommentResponse createComment(Long todoId, CreateCommentRequest request, HttpServletRequest req) {
+        HttpSession session = req.getSession();
+        String userEmail = (String) session.getAttribute("user");
+
+        Author author = authorRepository.findByEmail(userEmail)
                 .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 작성자입니다."));
 
-        Todo todo = todoRepository.findById(request.todoId())
+        Todo todo = todoRepository.findById(todoId)
                 .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 일정입니다."));
 
         Comment comment = request.convertToEntity(todo, author);
