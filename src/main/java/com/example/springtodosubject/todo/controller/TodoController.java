@@ -6,6 +6,7 @@ import com.example.springtodosubject.todo.dto.request.DeleteTodoRequest;
 import com.example.springtodosubject.todo.dto.request.UpdateTodoRequest;
 import com.example.springtodosubject.todo.dto.response.TodoResponse;
 import com.example.springtodosubject.todo.service.TodoService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -45,14 +46,22 @@ public class TodoController {
     }
 
     @PutMapping("/{todoId}")
-    public ResponseEntity<TodoResponse> updateTodo(@PathVariable Long todoId, @RequestBody UpdateTodoRequest request) {
-        TodoResponse todo = todoService.updateTodo(todoId, request);
+    public ResponseEntity<TodoResponse> updateTodo(
+            @PathVariable Long todoId,
+            @RequestBody UpdateTodoRequest request,
+            HttpServletRequest req
+    ) {
+        TodoResponse todo = todoService.updateTodo(todoId, request, req);
         return ResponseEntity.ok(todo);
     }
 
     @DeleteMapping("/{todoId}")
-    public ResponseEntity<String> deleteTodo(@PathVariable Long todoId, @RequestBody DeleteTodoRequest request) {
-        todoService.deleteTodo(todoId, request);
+    public ResponseEntity<String> deleteTodo(
+            @PathVariable Long todoId,
+            @RequestBody DeleteTodoRequest request,
+            HttpServletRequest req
+    ) {
+        todoService.deleteTodo(todoId, request, req);
         return ResponseEntity.ok("할 일 삭제완료");
     }
 }

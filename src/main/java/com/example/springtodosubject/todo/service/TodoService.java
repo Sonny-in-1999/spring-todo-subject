@@ -3,6 +3,7 @@ package com.example.springtodosubject.todo.service;
 import com.example.springtodosubject.author.entity.Author;
 import com.example.springtodosubject.author.repository.AuthorRepository;
 import com.example.springtodosubject.common.dto.PageResponse;
+import com.example.springtodosubject.common.exception.ForbiddenException;
 import com.example.springtodosubject.todo.dto.request.CreateTodoRequest;
 import com.example.springtodosubject.todo.dto.request.DeleteTodoRequest;
 import com.example.springtodosubject.todo.dto.request.UpdateTodoRequest;
@@ -10,6 +11,8 @@ import com.example.springtodosubject.todo.dto.response.TodoResponse;
 import com.example.springtodosubject.todo.entity.Todo;
 import com.example.springtodosubject.todo.repository.TodoRepository;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -19,7 +22,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -59,27 +61,41 @@ public class TodoService {
     // 일정 등록
     @Transactional
     public TodoResponse createTodo(CreateTodoRequest request) {
-        Optional<Author> author = authorRepository.findById(request.authorId());
-        if (author.isEmpty()) {
-            throw new IllegalArgumentException("존재하지 않는 작성자 정보입니다.");
-        }
-        Todo todo = request.convertToEntity(author.get());
+        Author author = authorRepository.findById(request.authorId())
+                .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 작성자입니다."));
+        Todo todo = request.convertToEntity(author);
         Todo savedTodo = todoRepository.save(todo);
         return TodoResponse.of(savedTodo);
     }
 
     // 일정 수정
     @Transactional
-    public TodoResponse updateTodo(Long todoId, UpdateTodoRequest request) {
+    public TodoResponse updateTodo(Long todoId, UpdateTodoRequest request, HttpServletRequest req) {
         Todo todo = validateTodoWithPassword(todoId, request.password());
+
+        HttpSession session = req.getSession();
+        String userEmail = (String) session.getAttribute("user");
+
+        // 세션 정보와 일치하지 않는 경우 권한 없음
+        if (!todo.getAuthor().getEmail().equals(userEmail)) {
+            throw new ForbiddenException("댓글 삭제 권한이 없습니다.");
+        }
         todo.update(request); // 더티체킹 -> save() 불필요
         return TodoResponse.of(todo);
     }
 
     // 일정 삭제
     @Transactional
-    public void deleteTodo(Long todoId, DeleteTodoRequest request) {
+    public void deleteTodo(Long todoId, DeleteTodoRequest request, HttpServletRequest req) {
         Todo todo = validateTodoWithPassword(todoId, request.password());
+
+        HttpSession session = req.getSession();
+        String userEmail = (String) session.getAttribute("user");
+
+        // 세션 정보와 일치하지 않는 경우 권한 없음
+        if (!todo.getAuthor().getEmail().equals(userEmail)) {
+            throw new ForbiddenException("댓글 삭제 권한이 없습니다.");
+        }
         todoRepository.delete(todo);
     }
 

@@ -15,6 +15,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -31,6 +32,7 @@ public class CommentService {
         return commentList.stream().map(CommentResponse::of).toList();
     }
 
+    @Transactional
     public CommentResponse createComment(CreateCommentRequest request) {
         Author author = authorRepository.findById(request.authorId())
                 .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 작성자입니다."));
@@ -44,6 +46,7 @@ public class CommentService {
         return CommentResponse.of(savedComment);
     }
 
+    @Transactional
     public CommentResponse updateComment(Long commentId, UpdateCommentRequest request, HttpServletRequest req) {
         Comment comment = validateComment(commentId);
 
@@ -58,6 +61,7 @@ public class CommentService {
         return CommentResponse.of(comment);
     }
 
+    @Transactional
     public void deleteComment(Long commentId, HttpServletRequest req) {
         Comment comment = validateComment(commentId);
 
