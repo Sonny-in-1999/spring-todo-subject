@@ -13,9 +13,6 @@ public record CreateTodoRequest(
         @NotNull(message = "일정 항목의 정보는 반드시 포함되어야 합니다.")
         String title,
 
-        @NotNull(message = "작성자 정보가 반드시 포함되어야 합니다.")
-        Long authorId,
-
         @NotNull(message = "일정 관리 비밀번호가 반드시 포함되어야 합니다.")
         String password,
 

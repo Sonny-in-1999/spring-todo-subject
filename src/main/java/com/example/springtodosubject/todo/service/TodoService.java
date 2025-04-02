@@ -60,9 +60,13 @@ public class TodoService {
 
     // 일정 등록
     @Transactional
-    public TodoResponse createTodo(CreateTodoRequest request) {
-        Author author = authorRepository.findById(request.authorId())
+    public TodoResponse createTodo(CreateTodoRequest request, HttpServletRequest req) {
+        // 세션 정보로 유저 조회
+        HttpSession session = req.getSession();
+        String userEmail = (String) session.getAttribute("user");
+        Author author = authorRepository.findByEmail(userEmail)
                 .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 작성자입니다."));
+        
         Todo todo = request.convertToEntity(author);
         Todo savedTodo = todoRepository.save(todo);
         return TodoResponse.of(savedTodo);
