@@ -33,7 +33,13 @@ public class TodoService {
     public PageResponse<List<TodoResponse>> getAllTodos(Long authorId, int page, int size) {
         Sort sort = Sort.by(Sort.Direction.DESC, "created_at");
         Pageable pageable = PageRequest.of(page, size, sort);
-        Page<Todo> todoPage = todoRepository.findAllByAuthorId(authorId, pageable);
+        Page<Todo> todoPage;
+        if (authorId != null) { // 작성자 pk 값을 받은경우 해당 작성자의 일정만 조회
+            todoPage = todoRepository.findAllByAuthorId(authorId, pageable);
+        } else { // 아니면 전부 조회
+            todoPage = todoRepository.findAll(pageable);
+        }
+
         List<TodoResponse> responseList = todoPage.stream().map(TodoResponse::of).toList();
 
         return PageResponse.<List<TodoResponse>>builder()

@@ -24,7 +24,7 @@ public class TodoController {
     // 전건 조회
     @GetMapping
     public ResponseEntity<PageResponse<List<TodoResponse>>> getTodos(
-            @RequestParam Long authorId,
+            @RequestParam(required = false) Long authorId,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size
     ) {
