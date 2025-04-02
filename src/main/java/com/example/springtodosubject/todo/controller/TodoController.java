@@ -62,6 +62,6 @@ public class TodoController {
             HttpServletRequest req
     ) {
         todoService.deleteTodo(todoId, request, req);
-        return ResponseEntity.ok("할 일 삭제완료");
+        return ResponseEntity.ok("일정 삭제 완료");
     }
 }

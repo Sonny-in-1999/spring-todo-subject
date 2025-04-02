@@ -34,6 +34,6 @@ public class AuthorController {
     @DeleteMapping("/{authorId}")
     public ResponseEntity<String> deleteAuthor(@PathVariable Long authorId, @RequestBody DeleteAuthorRequest request) {
         authorService.deleteAuthor(authorId, request);
-        return ResponseEntity.ok("작성자 삭제완료");
+        return ResponseEntity.ok("작성자 삭제 완료");
     }
 }
