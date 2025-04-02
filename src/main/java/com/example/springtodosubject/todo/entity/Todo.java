@@ -2,8 +2,11 @@ package com.example.springtodosubject.todo.entity;
 
 import com.example.springtodosubject.author.entity.Author;
 import com.example.springtodosubject.common.entity.BaseEntity;
+import com.example.springtodosubject.todo.dto.request.UpdateTodoRequest;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.time.LocalDate;
 
 @Table(name = "todo")
 @Entity
@@ -16,11 +19,20 @@ public class Todo extends BaseEntity {
     // todo_id(pk)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "todo_id")
     private Long todoId;
 
     // title
     @Column(name = "title", nullable = false)
     private String title;
+
+    // start_date
+    @Column(name = "start_date")
+    private LocalDate startDate;
+
+    // end_date
+    @Column(name = "end_date")
+    private LocalDate endDate;
 
     // author_id
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -32,7 +44,9 @@ public class Todo extends BaseEntity {
     private String password;
 
 
-    public void update(String title) {
-        this.title = title;
+    public void update(UpdateTodoRequest request) {
+        this.title = request.title();
+        this.startDate = LocalDate.parse(request.startDate());
+        this.endDate = LocalDate.parse(request.endDate());
     }
 }

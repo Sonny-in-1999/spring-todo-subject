@@ -1,6 +1,7 @@
 package com.example.springtodosubject.todo.dto.request;
 
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 public record UpdateTodoRequest(
@@ -9,6 +10,14 @@ public record UpdateTodoRequest(
         String title,
 
         @NotNull(message = "일정 관리 비밀번호가 반드시 포함되어야 합니다.")
-        String password
+        String password,
+
+        @Pattern(regexp = "\\d{4}-\\d{2}-\\d{2}", message = "날짜 형식은 yyyy-MM-dd 이어야 합니다.")
+        @NotNull(message = "일정 시작일자가 반드시 포함되어야 합니다.")
+        String startDate,
+
+        @Pattern(regexp = "\\d{4}-\\d{2}-\\d{2}", message = "날짜 형식은 yyyy-MM-dd 이어야 합니다.")
+        @NotNull(message = "일정 종료일자가 반드시 포함되어야 합니다.")
+        String endDate
 ) {
 }

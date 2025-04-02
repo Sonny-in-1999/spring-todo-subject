@@ -23,7 +23,7 @@ public class AuthService {
         Author author = request.convertToEntity();
         author.setPassword(passwordEncoder.encode(request.password()));
         Author savedAuthor = authorRepository.save(author);
-        return savedAuthor.convertToDTO();
+        return AuthorResponse.of(savedAuthor);
     }
 
     // 회원 인증

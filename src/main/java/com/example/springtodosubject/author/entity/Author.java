@@ -20,6 +20,7 @@ public class Author extends BaseEntity {
     // author_id
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "author_id")
     private Long authorId;
 
     // name

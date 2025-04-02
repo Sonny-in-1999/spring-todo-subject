@@ -65,7 +65,7 @@ public class TodoService {
     @Transactional
     public TodoResponse updateTodo(Long todoId, UpdateTodoRequest request) {
         Todo todo = validateTodoWithPassword(todoId, request.password());
-        todo.update(request.title()); // 더티체킹 -> save() 불필요
+        todo.update(request); // 더티체킹 -> save() 불필요
         return TodoResponse.of(todo);
     }
 

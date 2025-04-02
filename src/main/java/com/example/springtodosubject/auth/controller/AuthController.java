@@ -40,8 +40,8 @@ public class AuthController {
     @PostMapping("/logout")
     public ResponseEntity<String> logout(HttpServletRequest req) {
         HttpSession session = req.getSession(false);
-        if (session != null) {
-            session.invalidate(); // 세션 초기화
+        if (session.getAttribute("user") != null) {
+            session.setAttribute("user", null); // 세션 초기화
         }
         return ResponseEntity.ok("로그아웃에 성공했습니다.");
     }

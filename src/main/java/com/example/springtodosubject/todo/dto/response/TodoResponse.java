@@ -11,6 +11,8 @@ public record TodoResponse(
         String writerName,
         String writerEmail,
         String title,
+        String startDate,
+        String endDate,
         String createdAt,
         String updatedAt
 ) {
@@ -22,6 +24,8 @@ public record TodoResponse(
                 .writerName(todo.getAuthor().getName())
                 .writerEmail(todo.getAuthor().getEmail())
                 .title(todo.getTitle())
+                .startDate(todo.getStartDate().format(DateTimeFormatter.ofPattern("yyyy년 MM월 dd일")))
+                .endDate(todo.getEndDate().format(DateTimeFormatter.ofPattern("yyyy년 MM월 dd일")))
                 .createdAt(todo.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 hh시 mm분 ss초")))
                 .updatedAt(todo.getUpdatedAt().format(DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 hh시 mm분 ss초")))
                 .build();
