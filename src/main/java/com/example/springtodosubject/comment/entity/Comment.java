@@ -1,6 +1,8 @@
 package com.example.springtodosubject.comment.entity;
 
+import com.example.springtodosubject.author.entity.Author;
 import com.example.springtodosubject.common.entity.BaseEntity;
+import com.example.springtodosubject.todo.entity.Todo;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -17,4 +19,14 @@ public class Comment extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "comment_id")
     private Long commentId;
+
+    // author_id(작성자 다대일 매핑)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "author_id")
+    private Author author;
+
+    // todo_id(일정 다대일 매핑)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "todo_id")
+    private Todo todo;
 }

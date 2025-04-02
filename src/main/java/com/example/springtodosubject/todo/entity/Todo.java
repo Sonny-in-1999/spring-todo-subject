@@ -1,12 +1,15 @@
 package com.example.springtodosubject.todo.entity;
 
 import com.example.springtodosubject.author.entity.Author;
+import com.example.springtodosubject.comment.entity.Comment;
 import com.example.springtodosubject.common.entity.BaseEntity;
 import com.example.springtodosubject.todo.dto.request.UpdateTodoRequest;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Table(name = "todo")
 @Entity
@@ -34,7 +37,7 @@ public class Todo extends BaseEntity {
     @Column(name = "end_date")
     private LocalDate endDate;
 
-    // author_id
+    // author_id(작성자 다대일 매핑)
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "author_id")
     private Author author;
@@ -42,6 +45,10 @@ public class Todo extends BaseEntity {
     // password
     @Column(name = "password", nullable = false)
     private String password;
+
+    // 댓글 일대다 매핑
+    @OneToMany(mappedBy = "todo", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Comment> commentList = new ArrayList<>();
 
 
     public void update(UpdateTodoRequest request) {

@@ -1,6 +1,7 @@
 package com.example.springtodosubject.author.entity;
 
 import com.example.springtodosubject.author.dto.request.UpdateAuthorRequest;
+import com.example.springtodosubject.comment.entity.Comment;
 import com.example.springtodosubject.common.entity.BaseEntity;
 import com.example.springtodosubject.todo.entity.Todo;
 import jakarta.persistence.*;
@@ -39,6 +40,10 @@ public class Author extends BaseEntity {
     // 일정 일대다 매핑
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Todo> todoList = new ArrayList<>();
+
+    // 댓글 일대다 매핑
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Comment> commentList = new ArrayList<>();
 
     // 작성자 정보 수정
     public void update(UpdateAuthorRequest request) {
