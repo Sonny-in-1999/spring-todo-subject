@@ -37,7 +37,7 @@ public class CommentService {
     // 일정 댓글 등록
     @Transactional
     public CommentResponse createComment(Long todoId, CreateCommentRequest request, HttpServletRequest req) {
-        HttpSession session = req.getSession();
+        HttpSession session = req.getSession(false);
         String userEmail = (String) session.getAttribute("user");
 
         Author author = authorRepository.findByEmail(userEmail)
@@ -57,7 +57,7 @@ public class CommentService {
     public CommentResponse updateComment(Long commentId, UpdateCommentRequest request, HttpServletRequest req) {
         Comment comment = validateComment(commentId);
 
-        HttpSession session = req.getSession();
+        HttpSession session = req.getSession(false);
         String userEmail = (String) session.getAttribute("user");
 
         // 세션 정보와 일치하지 않는 경우 권한 없음
@@ -73,7 +73,7 @@ public class CommentService {
     public void deleteComment(Long commentId, HttpServletRequest req) {
         Comment comment = validateComment(commentId);
 
-        HttpSession session = req.getSession();
+        HttpSession session = req.getSession(false);
         String userEmail = (String) session.getAttribute("user");
 
         // 세션 정보와 일치하지 않는 경우 권한 없음

@@ -32,7 +32,7 @@ public class AuthorService {
     @Transactional
     public AuthorResponse updateAuthor(Long authorId, UpdateAuthorRequest request, HttpServletRequest req) {
         Author author = validateAuthor(authorId);
-        HttpSession session = req.getSession();
+        HttpSession session = req.getSession(false);
         String userEmail = (String) session.getAttribute("user");
         if (author.getEmail().equals(userEmail)) {
             throw new ForbiddenException("유저 정보 수정 권한이 없습니다.");
@@ -50,7 +50,7 @@ public class AuthorService {
     @Transactional
     public void deleteAuthor(Long authorId, DeleteAuthorRequest request, HttpServletRequest req) {
         Author author = validateAuthor(authorId);
-        HttpSession session = req.getSession();
+        HttpSession session = req.getSession(false);
         String userEmail = (String) session.getAttribute("user");
         if (author.getEmail().equals(userEmail)) {
             throw new ForbiddenException("유저 삭제 권한이 없습니다.");

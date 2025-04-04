@@ -64,7 +64,7 @@ public class TodoService {
     @Transactional
     public TodoResponse createTodo(CreateTodoRequest request, HttpServletRequest req) {
         // 세션 정보로 유저 조회
-        HttpSession session = req.getSession();
+        HttpSession session = req.getSession(false);
         String userEmail = (String) session.getAttribute("user");
         Author author = authorRepository.findByEmail(userEmail)
                 .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 작성자입니다."));
@@ -79,7 +79,7 @@ public class TodoService {
     public TodoResponse updateTodo(Long todoId, UpdateTodoRequest request, HttpServletRequest req) {
         Todo todo = validateTodoWithPassword(todoId, request.password());
 
-        HttpSession session = req.getSession();
+        HttpSession session = req.getSession(false);
         String userEmail = (String) session.getAttribute("user");
 
         // 세션 정보와 일치하지 않는 경우 권한 없음
@@ -95,7 +95,7 @@ public class TodoService {
     public void deleteTodo(Long todoId, DeleteTodoRequest request, HttpServletRequest req) {
         Todo todo = validateTodoWithPassword(todoId, request.password());
 
-        HttpSession session = req.getSession();
+        HttpSession session = req.getSession(false);
         String userEmail = (String) session.getAttribute("user");
 
         // 세션 정보와 일치하지 않는 경우 권한 없음
