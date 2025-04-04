@@ -28,6 +28,7 @@ public class CommentService {
     private final TodoRepository todoRepository;
 
     // 일정 댓글 목록 조회
+    @Transactional(readOnly = true)
     public List<CommentResponse> getAllComments(Long todoId) {
         List<Comment> commentList = commentRepository.getByTodo_TodoId(todoId);
         return commentList.stream().map(CommentResponse::of).toList();

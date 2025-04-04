@@ -32,6 +32,7 @@ public class TodoService {
 
 
     // 일정 전건 조회
+    @Transactional(readOnly = true)
     public PageResponse<List<TodoResponse>> getAllTodos(Long authorId, int page, int size) {
         Sort sort = Sort.by(Sort.Direction.DESC, "created_at");
         Pageable pageable = PageRequest.of(page, size, sort);
@@ -53,6 +54,7 @@ public class TodoService {
     }
 
     // 일정 단건 조회
+    @Transactional(readOnly = true)
     public TodoResponse getTodoById(Long todoId) {
         Todo todo = validateTodo(todoId);
         return TodoResponse.of(todo);

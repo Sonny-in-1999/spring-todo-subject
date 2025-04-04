@@ -22,6 +22,7 @@ public class AuthorService {
     private final PasswordEncoder passwordEncoder;
 
     // 작성자 단건 조회
+    @Transactional(readOnly = true)
     public AuthorResponse getAuthorById(Long authorId) {
         Author author = validateAuthor(authorId);
         return AuthorResponse.of(author);

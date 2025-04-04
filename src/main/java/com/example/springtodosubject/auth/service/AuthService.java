@@ -27,6 +27,7 @@ public class AuthService {
     }
 
     // 회원 인증
+    @Transactional(readOnly = true)
     public boolean authenticate(LoginRequest request) {
         return authorRepository.findByEmail(request.email())
                 .map(author -> passwordEncoder.matches(request.password(), author.getPassword()))
